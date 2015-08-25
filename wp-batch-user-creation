@@ -1,0 +1,37 @@
+<?php
+/*
+    Create users from a database table.
+    code adapted from:
+    http://wordpress.stackexchange.com/questions/98658/batch-users-creation
+*/
+
+$lock = false; //true = disabled (locked)
+
+if(!$lock) { // if not locked
+    require_once( $_SERVER['DOCUMENT_ROOT'] . '/wp-load.php' );
+
+    /*
+    $last_registered_user = $wpdb->get_row("SELECT ID FROM $wpdb->users ORDER BY ID DESC LIMIT 1");
+    $new_id = $last_registered_user->ID + 1;
+    $limit = false; // extra lock
+
+    while($new_id <= $limit) {
+        wp_add_user( 'user_'.$new_id, 'changeme', 'user'.$new_id.'@example.com' );
+        $new_id++;
+    }
+    */
+
+    //We'll use wp_insert_user instead to spedify more properties for the user.
+
+    $authors_waiting=$wpdb->get_results('select user_login, user_pass, user_email, first_name, last_name from waiting_authors', ARRAY_A);
+
+    foreach ($authors_waiting as $author_waiting) {
+        wp_insert_user($author_waiting);
+    }
+
+
+} else { // if locked ?>
+    <h5>This script is locked to prevent accidental use.</h5>
+<?php
+}
+?>
