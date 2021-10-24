@@ -1,5 +1,5 @@
 # gushiwen
-To have all the classic poems, esseys organized as a blog.
+To have all the classic poems, essays organized as a blog.
 
 We'll be using a customized Wordpress installation.
 Points that should be taken care of are:
